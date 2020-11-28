@@ -19,8 +19,8 @@ button {
     color: white;
 }
 input {
-    border: none;
-    outline: none;
+    /* border: none;
+    outline: none; */
     padding: 8px;
 }
 input:hover {
@@ -41,7 +41,6 @@ input:focus {
     grid-gap: 12px;
 }
 .stickerContainer {
-    border: 1px solid red;
-    background: blue;
+    border: 1px solid gray;
     width: 128px;
 }

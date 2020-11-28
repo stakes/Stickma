@@ -6,8 +6,8 @@ import '../styles/ui.css';
 export default function App() {
     const APIKEY = 'vqixbX9GqzUQGbZCg9e0az1t6ic7h0hd';
 
-    const [searchString, setSearchString] = useState('cats');
-    const [stickerLink, setStickerLink] = useState('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif');
+    const [searchString, setSearchString] = useState('');
+    // const [loaderLink, setLoaderLink] = useState('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif');
     const [stickers, setStickers] = useState([]);
 
     const onPlaceSticker = useCallback((stickerURL) => {
@@ -22,10 +22,9 @@ export default function App() {
         setSearchString(str);
     };
 
+    // do the actual search
     useEffect(() => {
-        console.log('search');
         let url = `https://api.giphy.com/v1/stickers/search?api_key=${APIKEY}&q=${searchString}`;
-        console.log(url);
         fetch(url)
             .then((response) => response.json())
             .then((stickerArray) => {
@@ -37,6 +36,22 @@ export default function App() {
                 setStickers(stickers);
             });
     }, [searchString]);
+
+    // get trending stickers once initially
+    useEffect(() => {
+        console.log('ONCE');
+        let url = `https://api.giphy.com/v1/stickers/trending?api_key=${APIKEY}`;
+        fetch(url)
+            .then((response) => response.json())
+            .then((stickerArray) => {
+                console.log(stickerArray);
+                let stickers = [];
+                stickerArray.data.forEach((el) => {
+                    stickers.push(el.images['480w_still'].url);
+                });
+                setStickers(stickers);
+            });
+    }, []);
 
     return (
         <div>
