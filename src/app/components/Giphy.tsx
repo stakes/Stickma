@@ -1,10 +1,14 @@
 import * as React from 'react';
 import {useState, useEffect, useCallback} from 'react';
 import Searchbar from './Searchbar';
+import '../styles/ui.css';
 
 export default function App() {
-    const [searchString, setSearchString] = useState('');
+    const APIKEY = 'vqixbX9GqzUQGbZCg9e0az1t6ic7h0hd';
+
+    const [searchString, setSearchString] = useState('cats');
     const [stickerLink, setStickerLink] = useState('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif');
+    const [stickers, setStickers] = useState([]);
 
     const onPlaceSticker = useCallback((stickerURL) => {
         let url = stickerURL;
@@ -19,19 +23,32 @@ export default function App() {
     };
 
     useEffect(() => {
-        let url = 'https://api.giphy.com/v1/stickers/random?api_key=vqixbX9GqzUQGbZCg9e0az1t6ic7h0hd';
+        console.log('search');
+        let url = `https://api.giphy.com/v1/stickers/search?api_key=${APIKEY}&q=${searchString}`;
+        console.log(url);
         fetch(url)
             .then((response) => response.json())
-            .then((stickerLink) => {
-                setStickerLink(stickerLink.data.images['480w_still'].url);
+            .then((stickerArray) => {
+                console.log(stickerArray);
+                let stickers = [];
+                stickerArray.data.forEach((el) => {
+                    stickers.push(el.images['480w_still'].url);
+                });
+                setStickers(stickers);
             });
     }, [searchString]);
 
     return (
         <div>
             <Searchbar onSearch={updateSearchString}></Searchbar>
-            <h2>One random sticker to test</h2>
-            <img width={200} src={stickerLink} alt="gif" onClick={() => onPlaceSticker(stickerLink)} />
+            <h2>big grid o stickers</h2>
+            <div className="stickerList">
+                {stickers.map((value) => (
+                    <div key={value} className="stickerContainer">
+                        <img width={128} key={value} src={value} alt="gif" onClick={() => onPlaceSticker(value)} />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

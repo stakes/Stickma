@@ -1,4 +1,4 @@
-figma.showUI(__html__);
+figma.showUI(__html__, {width: 300, height: 400});
 
 figma.ui.onmessage = (msg) => {
     let anchorX = figma.viewport.center.x;

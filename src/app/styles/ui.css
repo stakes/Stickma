@@ -1,7 +1,7 @@
 body {
     font: 12px sans-serif;
     text-align: center;
-    margin: 20px;
+    margin: 12px;
 }
 button {
     border-radius: 5px;
@@ -34,4 +34,14 @@ button:focus {
 }
 input:focus {
     box-shadow: inset 0 0 0 2px #18a0fb;
+}
+.stickerList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 12px;
+}
+.stickerContainer {
+    border: 1px solid red;
+    background: blue;
+    width: 128px;
 }
