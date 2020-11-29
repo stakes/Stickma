@@ -1,78 +1,40 @@
 figma.showUI(__html__, {width: 300, height: 400});
 
 figma.ui.onmessage = (msg) => {
-    let anchorX = figma.viewport.center.x;
-    let anchorY = figma.viewport.center.y;
+    // let anchorX = figma.viewport.center.x;
+    // let anchorY = figma.viewport.center.y;
     let zoom = figma.viewport.zoom;
     let s = 1 / zoom;
 
-    const bevelEffect: Effect = {
-        type: 'INNER_SHADOW',
-        color: {r: 0, g: 0, b: 0, a: 1},
-        offset: {x: -1 * s, y: -3 * s},
-        radius: 0,
-        visible: true,
-        blendMode: 'SOFT_LIGHT',
-    };
-    // shadow effect style
-    let shadowEffect: Effect /*Array<Effect>*/ = {
-        type: 'DROP_SHADOW',
-        color: {r: 0, g: 0, b: 0, a: 1},
-        offset: {x: 0, y: 1 * s},
-        radius: 3 * s,
-        visible: true,
-        blendMode: 'SOFT_LIGHT',
-    };
-
     if (msg.type === 'place-sticker') {
-        const frame = figma.createFrame();
-        frame.x = anchorX - frame.width / 2;
-        frame.y = anchorY - frame.height / 2;
-        frame.horizontalPadding = frame.verticalPadding = 8;
-        frame.layoutMode = 'HORIZONTAL';
-        frame.primaryAxisSizingMode = 'AUTO';
-        frame.counterAxisSizingMode = 'AUTO';
-        frame.fills = [{type: 'SOLID', color: {r: 1, g: 1, b: 1}}];
-        frame.strokeAlign = 'INSIDE';
-        frame.strokeWeight = 1;
-        frame.strokes = [{type: 'SOLID', color: {r: 0, g: 0, b: 0}, opacity: 0.15}];
+        // const stickerOpacity = true ? 0 : 1
+        // const frame = figma.createFrame();
+        // frame.x = anchorX - frame.width / 2;
+        // frame.y = anchorY - frame.height / 2;
+        // frame.horizontalPadding = frame.verticalPadding = 8;
+        // frame.layoutMode = 'HORIZONTAL';
+        // frame.primaryAxisSizingMode = 'AUTO';
+        // frame.counterAxisSizingMode = 'AUTO';
+        // frame.fills = [{type: 'SOLID', color: {r: 1, g: 1, b: 1}, opacity: stickerOpacity}];
+        // frame.strokeAlign = 'INSIDE';
+        // frame.strokeWeight = 1;
+        // frame.strokes = [{type: 'SOLID', color: {r: 0, g: 0, b: 0}, opacity: 0.15}];
         // frame.effects = [bevelEffect, shadowEffect]
 
         const imageFrame = figma.createFrame();
-        imageFrame.resizeWithoutConstraints(200, 200);
+        imageFrame.resizeWithoutConstraints(100 * s, 100 * s);
         imageFrame.fills = makeFillFromImageData(msg.data);
         imageFrame.x = figma.viewport.center.x - imageFrame.width / 2;
         imageFrame.y = figma.viewport.center.y - imageFrame.height / 2;
 
-        frame.appendChild(imageFrame);
+        // frame.appendChild(imageFrame);
 
-        const group = figma.group([frame], figma.currentPage);
-        group.name = 'Sticker';
+        const group = figma.group([imageFrame], figma.currentPage);
+        group.name = msg.title ? msg.title : 'Sticker';
         group.expanded = false;
 
         figma.currentPage.selection = [group];
     }
-
-    // if (msg.type === 'create-rectangles') {
-    //     const nodes = [];
-
-    //     for (let i = 0; i < msg.count; i++) {
-    //         const rect = figma.createRectangle();
-    //         rect.x = i * 150;
-    //         rect.fills = [{type: 'SOLID', color: {r: 1, g: 0.5, b: 0}}];
-    //         figma.currentPage.appendChild(rect);
-    //         nodes.push(rect);
-    //     }
-
-    //     figma.currentPage.selection = nodes;
-    //     figma.viewport.scrollAndZoomIntoView(nodes);
-
-    //     // This is how figma responds back to the ui
-    //     figma.ui.postMessage({
-    //         type: 'create-rectangles',
-    //         message: `Created ${msg.count} Rectangles`,
-    //     });
-    // }
 
     figma.closePlugin();
 };

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect, useCallback} from 'react';
+import {useCallback} from 'react';
 
 export default function Searchbar(props) {
     const onKeyDown = useCallback((e) => {
@@ -8,11 +8,5 @@ export default function Searchbar(props) {
         }
     }, []);
 
-    return (
-        <input
-            placeholder="Search stickers"
-            // onChange={(e) => onKeyDown(e)}
-            onKeyDown={(e) => onKeyDown(e)}
-        />
-    );
+    return <input className="searchBar" placeholder="Search stickers" onKeyDown={(e) => onKeyDown(e)} />;
 }

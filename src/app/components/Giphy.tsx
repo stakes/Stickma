@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect, useCallback} from 'react';
+import {useState, useEffect, useCallback, useRef} from 'react';
 import Searchbar from './Searchbar';
 import '../styles/ui.css';
 
@@ -10,11 +10,16 @@ export default function App() {
     // const [loaderLink, setLoaderLink] = useState('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif');
     const [stickers, setStickers] = useState([]);
 
-    const onPlaceSticker = useCallback((stickerURL) => {
-        let url = stickerURL;
+    const onPlaceSticker = useCallback((stickerObj) => {
+        let url = stickerObj.url;
         fetch(url)
             .then((r) => r.arrayBuffer())
-            .then((a) => parent.postMessage({pluginMessage: {type: 'place-sticker', data: new Uint8Array(a)}}, '*'))
+            .then((a) =>
+                parent.postMessage(
+                    {pluginMessage: {type: 'place-sticker', data: new Uint8Array(a), title: stickerObj.title}},
+                    '*'
+                )
+            )
             .catch((err) => console.error({err}));
     }, []);
 
@@ -22,8 +27,13 @@ export default function App() {
         setSearchString(str);
     };
 
-    // do the actual search
+    let isFirstRun = useRef(true);
     useEffect(() => {
+        console.log('search');
+        if (isFirstRun.current === true) {
+            isFirstRun.current = false;
+            return;
+        }
         let url = `https://api.giphy.com/v1/stickers/search?api_key=${APIKEY}&q=${searchString}`;
         fetch(url)
             .then((response) => response.json())
@@ -31,7 +41,7 @@ export default function App() {
                 console.log(stickerArray);
                 let stickers = [];
                 stickerArray.data.forEach((el) => {
-                    stickers.push(el.images['480w_still'].url);
+                    stickers.push({url: el.images['original_still'].url, title: el.title});
                 });
                 setStickers(stickers);
             });
@@ -39,7 +49,7 @@ export default function App() {
 
     // get trending stickers once initially
     useEffect(() => {
-        console.log('ONCE');
+        console.log('trending');
         let url = `https://api.giphy.com/v1/stickers/trending?api_key=${APIKEY}`;
         fetch(url)
             .then((response) => response.json())
@@ -47,7 +57,7 @@ export default function App() {
                 console.log(stickerArray);
                 let stickers = [];
                 stickerArray.data.forEach((el) => {
-                    stickers.push(el.images['480w_still'].url);
+                    stickers.push({url: el.images['original_still'].url, title: el.title});
                 });
                 setStickers(stickers);
             });
@@ -56,11 +66,22 @@ export default function App() {
     return (
         <div>
             <Searchbar onSearch={updateSearchString}></Searchbar>
-            <h2>big grid o stickers</h2>
+            {!stickers.length && !isFirstRun.current && (
+                // <image src="" alt="" ></image>
+                <p>
+                    No stickers matching <em>{searchString}</em>
+                </p>
+            )}
             <div className="stickerList">
                 {stickers.map((value) => (
-                    <div key={value} className="stickerContainer">
-                        <img width={128} key={value} src={value} alt="gif" onClick={() => onPlaceSticker(value)} />
+                    <div key={value.url} className="stickerContainer">
+                        <img
+                            width={128}
+                            key={value.url}
+                            src={value.url}
+                            alt="gif"
+                            onClick={() => onPlaceSticker(value)}
+                        />
                     </div>
                 ))}
             </div>
