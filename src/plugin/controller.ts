@@ -1,10 +1,15 @@
 figma.showUI(__html__, {width: 300, height: 400});
 
 figma.ui.onmessage = (msg) => {
-    // let anchorX = figma.viewport.center.x;
-    // let anchorY = figma.viewport.center.y;
+    let anchorX = figma.viewport.center.x;
+    let anchorY = figma.viewport.center.y;
     let zoom = figma.viewport.zoom;
     let s = 1 / zoom;
+    let selection = figma.currentPage.selection[0];
+    if (selection) {
+        anchorX = selection.absoluteTransform[0][2] + selection.width;
+        anchorY = selection.absoluteTransform[1][2];
+    }
 
     if (msg.type === 'place-sticker') {
         // const stickerOpacity = true ? 0 : 1
@@ -24,8 +29,8 @@ figma.ui.onmessage = (msg) => {
         const imageFrame = figma.createFrame();
         imageFrame.resizeWithoutConstraints(100 * s, 100 * s);
         imageFrame.fills = makeFillFromImageData(msg.data);
-        imageFrame.x = figma.viewport.center.x - imageFrame.width / 2;
-        imageFrame.y = figma.viewport.center.y - imageFrame.height / 2;
+        imageFrame.x = anchorX - imageFrame.width / 2;
+        imageFrame.y = anchorY - imageFrame.height / 2;
 
         // frame.appendChild(imageFrame);
 

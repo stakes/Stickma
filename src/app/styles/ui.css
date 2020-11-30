@@ -56,3 +56,40 @@ input {
     background-size: 32px 32px;
     background-position: 0 0, 16px 0, 16px -16px, 0px 16px;
 }
+.pillterContainer {
+    display: flex;
+    flex-direction: row;
+    overflow: scroll;
+    padding-left: 16px;
+    padding-top: 16px;
+    padding-right: 16px;
+}
+.pillterContainer::-webkit-scrollbar {
+    display: none;
+}
+.pillter {
+    width: 100%;
+    height: 100%;
+    white-space: nowrap;
+    background-color: #eee;
+    margin-right: 8px;
+    display: block;
+    border-radius: 999px;
+    cursor: pointer;
+}
+.pillter:hover,
+.pillter:active {
+    background-color: #ccc;
+}
+.pillter:last-child {
+    margin-right: 24px;
+}
+.pillter p {
+    color: #666;
+    margin: 4px 12px;
+    cursor: pointer;
+}
+.pillter:hover p,
+.pillter:active p {
+    color: #333;
+}

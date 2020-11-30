@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {useState, useEffect, useCallback, useRef} from 'react';
 import Searchbar from './Searchbar';
+import Pillters from './Pillters';
 import '../styles/ui.css';
 
 export default function App() {
@@ -22,6 +23,10 @@ export default function App() {
             )
             .catch((err) => console.error({err}));
     }, []);
+
+    const runSearch = (v) => {
+        setSearchString(v);
+    };
 
     const updateSearchString = (str) => {
         setSearchString(str);
@@ -65,7 +70,8 @@ export default function App() {
 
     return (
         <div>
-            <Searchbar onSearch={updateSearchString}></Searchbar>
+            <Searchbar onSearch={updateSearchString} value={searchString}></Searchbar>
+            <Pillters onClick={(v) => runSearch(v)} />
             {!stickers.length && !isFirstRun.current && (
                 // <image src="" alt="" ></image>
                 <p>
