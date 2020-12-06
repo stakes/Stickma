@@ -1,21 +1,30 @@
 import * as React from 'react';
-import {useCallback} from 'react';
+import {useState} from 'react';
 
 export default function Searchbar(props) {
-    // const [searchString, setSearchString] = useState("")
+    const [searchString, setSearchString] = useState(props.searchString);
 
-    const onKeyDown = useCallback((e) => {
+    const handleChange = (e) => {
+        setSearchString(e.target.value);
+    };
+
+    const handleKeyDown = (e) => {
         if (e.code === 'Enter') {
             props.onSearch(e.target.value);
         }
-    }, []);
+    };
+
+    React.useEffect(() => {
+        setSearchString(props.searchString);
+    }, [props.searchString]);
 
     return (
         <input
             className="searchBar"
             placeholder="Search stickers"
-            value={props.value}
-            onKeyDown={(e) => onKeyDown(e)}
+            value={searchString}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
         />
     );
 }

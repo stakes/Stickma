@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect, useCallback, useRef} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import Searchbar from './Searchbar';
 import Pillters from './Pillters';
 import '../styles/ui.css';
@@ -11,7 +11,7 @@ export default function App() {
     // const [loaderLink, setLoaderLink] = useState('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif');
     const [stickers, setStickers] = useState([]);
 
-    const onPlaceSticker = useCallback((stickerObj) => {
+    const onPlaceSticker = (stickerObj) => {
         let url = stickerObj.url;
         fetch(url)
             .then((r) => r.arrayBuffer())
@@ -22,7 +22,7 @@ export default function App() {
                 )
             )
             .catch((err) => console.error({err}));
-    }, []);
+    };
 
     const runSearch = (v) => {
         setSearchString(v);
@@ -34,7 +34,6 @@ export default function App() {
 
     let isFirstRun = useRef(true);
     useEffect(() => {
-        console.log('search');
         if (isFirstRun.current === true) {
             isFirstRun.current = false;
             return;
@@ -43,7 +42,6 @@ export default function App() {
         fetch(url)
             .then((response) => response.json())
             .then((stickerArray) => {
-                console.log(stickerArray);
                 let stickers = [];
                 stickerArray.data.forEach((el) => {
                     stickers.push({url: el.images['original_still'].url, title: el.title});
@@ -54,12 +52,10 @@ export default function App() {
 
     // get trending stickers once initially
     useEffect(() => {
-        console.log('trending');
         let url = `https://api.giphy.com/v1/stickers/trending?api_key=${APIKEY}`;
         fetch(url)
             .then((response) => response.json())
             .then((stickerArray) => {
-                console.log(stickerArray);
                 let stickers = [];
                 stickerArray.data.forEach((el) => {
                     stickers.push({url: el.images['original_still'].url, title: el.title});
@@ -70,7 +66,7 @@ export default function App() {
 
     return (
         <div>
-            <Searchbar onSearch={updateSearchString} value={searchString}></Searchbar>
+            <Searchbar onSearch={updateSearchString} searchString={searchString}></Searchbar>
             <Pillters onClick={(v) => runSearch(v)} />
             {!stickers.length && !isFirstRun.current && (
                 // <image src="" alt="" ></image>

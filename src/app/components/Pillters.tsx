@@ -15,7 +15,6 @@ export default function Pillters(props) {
         fetch(url)
             .then((response) => response.json())
             .then((arr) => {
-                console.log(arr);
                 let terms = [];
                 arr.data.forEach((el) => {
                     terms.push(el);
