@@ -39,6 +39,7 @@ export default function App() {
             return;
         }
         let url = `https://api.giphy.com/v1/stickers/search?api_key=${APIKEY}&q=${searchString}`;
+        if (searchString === '') url = `https://api.giphy.com/v1/stickers/trending?api_key=${APIKEY}`;
         fetch(url)
             .then((response) => response.json())
             .then((stickerArray) => {
