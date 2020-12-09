@@ -22,8 +22,11 @@ export default function Pillters(props) {
                 starterTerms.forEach((el) => {
                     terms.push(el);
                 });
-                let randomTerm = randoTerms[Math.floor(Math.random() * randoTerms.length)];
-                terms.push(randomTerm);
+                const shuffled = randoTerms.sort(() => Math.random() - 0.5);
+                const randomTwo = shuffled.slice(0, 2);
+                randomTwo.forEach((el) => {
+                    terms.push(el);
+                });
                 arr.data.forEach((el) => {
                     terms.push(el);
                 });
@@ -34,8 +37,8 @@ export default function Pillters(props) {
     return (
         <div className="pillterContainer">
             {!terms.length && <h3>Empty pillters</h3>}
-            {terms.map((value) => (
-                <div className="pillter" key={value} onClick={() => onClick(value)}>
+            {terms.map((value, index) => (
+                <div className="pillter" key={index} onClick={() => onClick(value)}>
                     <p>{value}</p>
                 </div>
             ))}
