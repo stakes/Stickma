@@ -7,7 +7,7 @@ export default function Pillters(props) {
     const [terms, setTerms] = useState([]);
 
     const starterTerms = ['😀', '😍', '🤔', '💯'];
-    const randoTerms = ['3d text', 'pusheen', 'high five', 'party', 'nope', 'hell yeah', 'why'];
+    const randoTerms = ['3d text', 'pusheen', 'high five', 'party', 'nope', 'hell yeah', 'why', 'clap'];
 
     const onClick = (v) => {
         props.onClick(v);
