@@ -6,7 +6,8 @@ export default function Pillters(props) {
 
     const [terms, setTerms] = useState([]);
 
-    const starterTerms = ['😀', '🤔', '😍', '💯', '3d text'];
+    const starterTerms = ['😀', '😍', '🤔', '💯'];
+    const randoTerms = ['3d text', 'pusheen', 'high five', 'party', 'nope', 'hell yeah', 'why'];
 
     const onClick = (v) => {
         props.onClick(v);
@@ -21,6 +22,8 @@ export default function Pillters(props) {
                 starterTerms.forEach((el) => {
                     terms.push(el);
                 });
+                let randomTerm = randoTerms[Math.floor(Math.random() * randoTerms.length)];
+                terms.push(randomTerm);
                 arr.data.forEach((el) => {
                     terms.push(el);
                 });
