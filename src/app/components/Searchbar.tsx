@@ -21,7 +21,7 @@ export default function Searchbar(props) {
 
     useEffect(() => {
         searchInput.current.focus();
-    });
+    }, []);
 
     return (
         <input
