@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useState, useRef, useEffect} from 'react';
 
 export default function Searchbar(props) {
     const [searchString, setSearchString] = useState(props.searchString);
+    const searchInput = useRef(null);
 
     const handleChange = (e) => {
         setSearchString(e.target.value);
@@ -14,9 +15,13 @@ export default function Searchbar(props) {
         }
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         setSearchString(props.searchString);
     }, [props.searchString]);
+
+    useEffect(() => {
+        searchInput.current.focus();
+    });
 
     return (
         <input
@@ -25,6 +30,7 @@ export default function Searchbar(props) {
             value={searchString}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
+            ref={searchInput}
         />
     );
 }
