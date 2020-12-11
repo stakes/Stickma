@@ -40,6 +40,18 @@ input {
     background-position: 16px center;
     background-repeat: no-repeat;
 }
+.infoButton {
+    width: 16px;
+    height: 16px;
+    background-image: url('../assets/info.svg');
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 12px;
+    top: 11px;
+}
 .stickerList {
     column-count: 2;
     column-gap: 1em;

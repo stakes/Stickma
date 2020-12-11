@@ -24,13 +24,16 @@ export default function Searchbar(props) {
     }, []);
 
     return (
-        <input
-            className="searchBar"
-            placeholder="Search stickers"
-            value={searchString}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            ref={searchInput}
-        />
+        <div className="searchBarContainer">
+            <input
+                className="searchBar"
+                placeholder="Search stickers"
+                value={searchString}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                ref={searchInput}
+            />
+            <div className="infoButton" />
+        </div>
     );
 }
