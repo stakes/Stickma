@@ -9,12 +9,14 @@
 		"prettier:format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,json}' "
 	},
 	"dependencies": {
+		"dotenv-webpack": "^6.0.0",
 		"react": "^17.0.1",
 		"react-async-hook": "^3.6.2",
 		"react-dom": "^17.0.1"
 	},
 	"devDependencies": {
 		"@figma/plugin-typings": "^1.19.0",
+		"@types/node": "^14.14.12",
 		"@types/react": "^17.0.0",
 		"@types/react-dom": "^17.0.0",
 		"css-loader": "^5.0.1",

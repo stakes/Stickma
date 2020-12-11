@@ -5,8 +5,7 @@ import Pillters from './Pillters';
 import '../styles/ui.css';
 
 export default function App() {
-    const APIKEY = 'vqixbX9GqzUQGbZCg9e0az1t6ic7h0hd';
-
+    const APIKEY = process.env.GIPHY_API_KEY;
     const [searchString, setSearchString] = useState('');
     // const [loaderLink, setLoaderLink] = useState('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif');
     const [stickers, setStickers] = useState([]);
@@ -34,6 +33,7 @@ export default function App() {
 
     let isFirstRun = useRef(true);
     useEffect(() => {
+        console.log(process.env.REACT_APP_API_KEY);
         if (isFirstRun.current === true) {
             isFirstRun.current = false;
             return;
