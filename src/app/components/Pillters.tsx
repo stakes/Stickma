@@ -9,10 +9,6 @@ export default function Pillters(props) {
     const starterTerms = ['😀', '😍', '🤔', '💯'];
     const randoTerms = ['3d text', 'pusheen', 'high five', 'party', 'nope', 'hell yeah', 'why', 'clap'];
 
-    const onClick = (v) => {
-        props.onClick(v);
-    };
-
     useEffect(() => {
         let url = `https://api.giphy.com/v1/trending/searches?api_key=${APIKEY}`;
         fetch(url)
@@ -35,13 +31,16 @@ export default function Pillters(props) {
     }, []);
 
     return (
-        <div className="pillterContainer">
-            {!terms.length && <h3>Empty pillters</h3>}
-            {terms.map((value, index) => (
-                <div className="pillter" key={index} onClick={() => onClick(value)}>
-                    <p>{value}</p>
+        <div>
+            {terms.length && (
+                <div className="pillterContainer">
+                    {terms.map((value, index) => (
+                        <div className="pillter" key={index} onClick={() => props.onClick(value)}>
+                            <p>{value}</p>
+                        </div>
+                    ))}
                 </div>
-            ))}
+            )}
         </div>
     );
 }
