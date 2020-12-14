@@ -33,7 +33,7 @@ export default function Searchbar(props) {
                 onKeyDown={handleKeyDown}
                 ref={searchInput}
             />
-            <div className="infoButton" />
+            <div className="infoButton" onClick={props.onInfoClick} />
         </div>
     );
 }

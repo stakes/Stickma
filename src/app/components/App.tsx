@@ -9,6 +9,7 @@ export default function App() {
     const [searchString, setSearchString] = useState('');
     // const [loaderLink, setLoaderLink] = useState('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif');
     const [stickers, setStickers] = useState([]);
+    const [isInfo, setIsInfo] = useState(false);
 
     const onPlaceSticker = (stickerObj) => {
         let url = stickerObj.url;
@@ -29,6 +30,15 @@ export default function App() {
 
     const updateSearchString = (str) => {
         setSearchString(str);
+    };
+
+    const showInfoModal = () => {
+        console.log('show info modal');
+        setIsInfo(true);
+    };
+
+    const hideInfoModal = () => {
+        setIsInfo(false);
     };
 
     let isFirstRun = useRef(true);
@@ -67,26 +77,51 @@ export default function App() {
 
     return (
         <div>
-            <Searchbar onSearch={updateSearchString} searchString={searchString}></Searchbar>
-            <Pillters onClick={(v) => runSearch(v)} />
-            {!stickers.length && !isFirstRun.current && (
-                // <image src="" alt="" ></image>
-                <p>
-                    No stickers matching <em>{searchString}</em>
-                </p>
-            )}
-            <div className="stickerList">
-                {stickers.map((value) => (
-                    <div key={value.url} className="stickerContainer">
-                        <img
-                            width={128}
-                            key={value.url}
-                            src={value.url}
-                            alt="gif"
-                            onClick={() => onPlaceSticker(value)}
-                        />
+            {isInfo && (
+                <div className="infoModalOverlay" onClick={hideInfoModal}>
+                    <div className="infoModal">
+                        <div className="infoContent">
+                            <p>Stickers and sticker search powered by</p>
+                            <a href="https://www.giphy.com" target="_blank">
+                                <div className="giphyLogo" />
+                            </a>
+                            <p>
+                                Plugin by
+                                <br />
+                                <a href="https://www.figma.com/@alcor_n_stakes" target="_blank">
+                                    Nicholas &amp; Jay
+                                </a>
+                            </p>
+                        </div>
                     </div>
-                ))}
+                </div>
+            )}
+            <div className="appContainer">
+                <Searchbar
+                    onInfoClick={showInfoModal}
+                    onSearch={updateSearchString}
+                    searchString={searchString}
+                ></Searchbar>
+                <Pillters onClick={(v) => runSearch(v)} />
+                {!stickers.length && !isFirstRun.current && (
+                    // <image src="" alt="" ></image>
+                    <p>
+                        No stickers matching <em>{searchString}</em>
+                    </p>
+                )}
+                <div className="stickerList">
+                    {stickers.map((value) => (
+                        <div key={value.url} className="stickerContainer">
+                            <img
+                                width={128}
+                                key={value.url}
+                                src={value.url}
+                                alt="gif"
+                                onClick={() => onPlaceSticker(value)}
+                            />
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
