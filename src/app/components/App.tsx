@@ -1,7 +1,9 @@
 import * as React from 'react';
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect, useRef, Suspense} from 'react';
 import Searchbar from './Searchbar';
 import Pillters from './Pillters';
+import StickerList from './StickerList';
+import Loader from './Loader';
 import '../styles/ui.css';
 
 export default function App() {
@@ -10,19 +12,6 @@ export default function App() {
     // const [loaderLink, setLoaderLink] = useState('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif');
     const [stickers, setStickers] = useState([]);
     const [isInfo, setIsInfo] = useState(false);
-
-    const onPlaceSticker = (stickerObj) => {
-        let url = stickerObj.url;
-        fetch(url)
-            .then((r) => r.arrayBuffer())
-            .then((a) =>
-                parent.postMessage(
-                    {pluginMessage: {type: 'place-sticker', data: new Uint8Array(a), title: stickerObj.title}},
-                    '*'
-                )
-            )
-            .catch((err) => console.error({err}));
-    };
 
     const runSearch = (v) => {
         setSearchString(v);
@@ -109,19 +98,9 @@ export default function App() {
                         No stickers matching <em>{searchString}</em>
                     </p>
                 )}
-                <div className="stickerList">
-                    {stickers.map((value) => (
-                        <div key={value.url} className="stickerContainer">
-                            <img
-                                width={128}
-                                key={value.url}
-                                src={value.url}
-                                alt="gif"
-                                onClick={() => onPlaceSticker(value)}
-                            />
-                        </div>
-                    ))}
-                </div>
+                <Suspense fallback={<Loader />}>
+                    <StickerList stickers={stickers} />
+                </Suspense>
             </div>
         </div>
     );

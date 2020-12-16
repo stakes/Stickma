@@ -116,6 +116,7 @@ input {
     cursor: pointer;
     transition-property: all;
     transition-duration: 0.15s;
+    animation: 0.15s linear 0s 1 fadeInOpacity;
 }
 .stickerContainer:hover {
     background-color: rgba(0, 0, 0, 0.05);
@@ -135,7 +136,7 @@ input {
     vertical-align: middle;
     text-align: center;
     z-index: 100;
-    animation: 0.15s linear 0s 1 showModalOverlay;
+    animation: 0.15s linear 0s 1 fadeInOpacity;
 }
 .infoModal {
     position: absolute;
@@ -172,7 +173,7 @@ input {
     border-radius: 4px;
     display: inline-block;
 }
-@keyframes showModalOverlay {
+@keyframes fadeInOpacity {
     0% {
         opacity: 0;
     }
@@ -188,4 +189,17 @@ input {
     100% {
         transform: perspective(1px) translateY(-50%);
     }
+}
+
+.loader {
+    width: 24px;
+    height: 24px;
+    background-image: url('../assets/loader.svg');
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: perspective(1px) translateX(-50%) translateY(-50%);
 }
