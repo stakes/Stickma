@@ -8,7 +8,7 @@ const imgCache = {
                 const img = new Image();
                 img.onload = () => {
                     this.__cache[src] = true;
-                    resolve(this.__cache[src]);
+                    setTimeout(() => resolve(this.__cache[src]), 250);
                 };
                 img.src = src;
             }).then(() => {
