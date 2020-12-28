@@ -22,7 +22,6 @@ export default function App() {
     };
 
     const showInfoModal = () => {
-        console.log('show info modal');
         setIsInfo(true);
     };
 
@@ -32,7 +31,6 @@ export default function App() {
 
     let isFirstRun = useRef(true);
     useEffect(() => {
-        console.log(process.env.REACT_APP_API_KEY);
         if (isFirstRun.current === true) {
             isFirstRun.current = false;
             return;
