@@ -1,5 +1,7 @@
 node_modules
 dist
+_misc
 settings.json
 yarn-error.log
 .env
+.DS_Store
